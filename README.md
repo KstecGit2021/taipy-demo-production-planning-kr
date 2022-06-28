@@ -40,16 +40,16 @@ After registering with a new account (name & password), the first page gets disp
 - The main chart plots the future demand for finished product A (FPA) and finished product B (FPB) over the next 11 months. The current month is month 0.
 
 <p align="center">
-  <img src="images/image9.png" alt="drawing" width="700"/>
+  <img src="docs/image9.png" alt="drawing" width="700"/>
 </p>
   
 - Just above, when clicking on “Expand here”, you can find a Taipy GUI “expandable” containing the initial production data at time 0 (current month): the stock & production levels, the incoming orders for the raw materials, and the demand (in a table).
 
 ## Optimizing and Playing with Scenarios
-By clicking on the Scenario Manager icon (on the left panel) <img src="images/image17.png" alt="drawing" width="40"/>, you access the main page of the application. From this page, you can create a new scenario, change the scenario parameters (on the ‘Scenario Configuration’ side of the page), and re-submit the scenario i.e., re-optimize the scenario by taking into account the modified parameters).
+By clicking on the Scenario Manager icon (on the left panel) <img src="docs/image17.png" alt="drawing" width="40"/>, you access the main page of the application. From this page, you can create a new scenario, change the scenario parameters (on the ‘Scenario Configuration’ side of the page), and re-submit the scenario i.e., re-optimize the scenario by taking into account the modified parameters).
 
 <p align="center">
-  <img src="images/image5.png" alt="drawing" width="700"/>
+  <img src="docs/image5.png" alt="drawing" width="700"/>
 </p>
 
 Let’s look at the different fields in more detail.
@@ -70,22 +70,22 @@ You can select the different visuals by selecting the data to be displayed (cost
 
 
 <p align="center">
-  <img src="images/image13.png" alt="drawing" width="700"/>
-  <img src="images/image10.png" alt="drawing" width="700"/>
+  <img src="docs/image13.png" alt="drawing" width="700"/>
+  <img src="docs/image10.png" alt="drawing" width="700"/>
 </p>
   
 ## Modifying the Parameters
 This panel allows you to modify some of the parameters; these are divided in three categories:
 
 <p align="center">
-  <img src="images/image12.png" alt="drawing" width="400"/>
+  <img src="docs/image12.png" alt="drawing" width="400"/>
 </p>
 
 1. When clicking on ‘Capacity Constraints’, you can modify the various capacity values for the different products (finished product and raw products). The capacity constraints relate to the product icon selected (by default, the table icon is selected).
 
 
 <p align="center">
-  <img src="images/image2.png" alt="drawing" width="200"/>
+  <img src="docs/image2.png" alt="drawing" width="200"/>
 </p>
 
 By selecting a different product icon, the corresponding capacity constraints will appear.
@@ -97,7 +97,7 @@ By selecting a different product icon, the corresponding capacity constraints wi
 Once some of the parameters have been modified, two options are available to the user:
 
 <p align="center">
-  <img src="images/image6.png" alt="drawing" width="300"/>
+  <img src="docs/image6.png" alt="drawing" width="300"/>
 </p> 
   
 - Clicking on “New Scenario”  will create a second scenario that will optimize the costs based on the new set of parameters.
@@ -106,7 +106,7 @@ Once some of the parameters have been modified, two options are available to the
 Should you create a second scenario, you can select one of the two scenarios to be ‘Primary’. By clicking on “Make Primary’. In such a case, a little flag will appear on the side of the scenario name.
 
 <p align="center">
-  <img src="images/image1.png" alt="drawing" width="400"/>
+  <img src="docs/image1.png" alt="drawing" width="400"/>
 </p>
   
 ‘Primary’ is a Taipy Core concept that comes in handy when one of the many scenarios that users create needs to be identified as the ‘official’ scenario for the current cycle. In this demo, the cycle (another Taipy Core concept) is the month. 
@@ -121,11 +121,11 @@ By clicking on the balance icon on the left panel, you will be able to compare 2
 By clicking on the circle arrow icon on the left panel, you will be able to display the algorithm's performance over time. The program simply extracts the optimized costs from the ‘Primary’ scenario for each cycle (i.e., month) and displays them in a bar chart. Note that this demo already contains scenarios generated for the previous months.
 
 <p align="center">
-<img src="images/image18.png" alt="drawing" width="700"/>
+<img src="docs/image18.png" alt="drawing" width="700"/>
 </p>
   
 ## Databases
-By clicking on <img src="images/image8.png" alt="drawing" width="40"/> icon, you can display the different tables (dataframes) for a given scenario. You can download as CSV file the result table by clicking on the ‘Download Table’ button.
+By clicking on <img src="docs/image8.png" alt="drawing" width="40"/> icon, you can display the different tables (dataframes) for a given scenario. You can download as CSV file the result table by clicking on the ‘Download Table’ button.
 
 
 
