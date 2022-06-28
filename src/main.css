@@ -1,0 +1,126 @@
+div#root {
+    margin: 20px;
+}
+
+.css-4x8mum{
+    margin : 0px;
+}
+
+.red {
+    background: rgb(255, 155, 155);
+}
+.green {
+    background: rgb(171, 255, 171);
+}
+
+.point path {
+    opacity: 0.9 !important;
+}
+
+.histogram .point path {
+    opacity: 0.35 !important;
+}
+
+#part_dialog_button {
+    position: fixed !important;
+    top: 1rem !important;
+    right: 1rem !important;
+}
+
+
+.css-ffvrb6{
+    width:100%
+}
+
+#user_selector{
+    position: relative;
+    left: -10%;
+    width: 119%;
+}
+
+
+
+#user_selected .css-6xtbj9{
+    box-shadow: none !important;
+    border:4px solid rgb(210,210,210) !important;
+    border-radius:7px !important;
+}
+
+#user_selected .css-e0yuwi.Mui-selected{
+    background-color: #ffffff !important;
+}
+
+
+
+#delete_button{
+    margin-bottom: 5px;
+    border-color: red;
+    color: red;
+    width: 100%;
+}
+
+
+#make_primary{
+    margin-bottom: 5px;
+    width:100%;
+}
+
+#re_optimize{
+    margin-bottom: 5px;
+    width:100%;
+}
+
+#new_scenario{
+    margin-bottom: 5px;
+    width:100%;
+    color:white;
+    background-color: #1976d2;
+}
+
+
+#dialog_button {
+    text-transform: inherit;
+    border: white;
+    color: #4545fd;
+    justify-content: start;
+    padding: 0px;
+    font-size: 1rem;
+    font-weight: 400;
+    min-width: fit-content;
+}
+
+#password_input{
+    color: #808080a6;
+}
+
+.css-a8ajij{
+    font-size: 1rem;
+}
+
+
+.css-14tqbo1{
+    font-size: 1.5 rem;
+}
+
+
+.css-1v4ccyo{
+    height: 57px;
+}
+
+.css-79xub.Mui-disabled{
+    color: rgba(0, 0, 0, 0.26) !important;
+    border-color:rgba(0, 0, 0, 0.26) !important;
+}
+
+.css-q5cu77.Mui-disabled{
+    filter: opacity(50%);
+    filter: contrast(20%);
+    filter: grayscale(75%);
+    
+}
+
+.css-79xub.Mui-disabled{
+    filter: contrast(5%);
+}
+
+
