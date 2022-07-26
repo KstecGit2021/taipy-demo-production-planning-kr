@@ -85,7 +85,7 @@ Welcome, <|{login if login != '' else 'login'}|button|on_action={open_dialog_use
 
 Password
 
-<|{password}|input|id=password_input|>
+<|{password}|input|id=password_input|password|>
 |>
 
 
