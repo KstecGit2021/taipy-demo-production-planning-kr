@@ -20,6 +20,8 @@ cc_creation_finished = False
 
 
 def cc_create_scenarios_for_cycle():
+    """This function creates scenarios for multiple cycles and submit them.
+    """
     date = dt.datetime(2021, 1, 1)
     month = date.strftime('%b')
     year = date.strftime('%Y')
@@ -49,6 +51,7 @@ def cc_create_scenarios_for_cycle():
 
 
 def update_cc_data(state):
+    """This function creates the evolution of the cost of back order and stock for the primary scenario of all the cycles."""
     all_scenarios = tp.get_primary_scenarios()
 
     dates = []
@@ -110,7 +113,7 @@ cc_compare_cycles_md = """
 
 ## Evolution of costs
 
-<|{cc_data}|chart|type=bar|x=Cycle|y[1]=Cost of Back Order|y[2]=Cost of Stock|layout={cc_layout}|width=100%|height=600|>
+<|{cc_data}|chart|type=bar|x=Cycle|y[1]=Cost of Back Order|y[2]=Cost of Stock|color[2]=#89CFF0|layout={cc_layout}|width=100%|height=600|>
 |>
 
 """

@@ -89,7 +89,7 @@ Scenario
 <br/>
 <br/>
 <|layout|columns=1 1|columns[mobile]=1|
-<|{cs_comparaison_metrics_df[cs_comparaison_metrics_df['Metrics']=='Stock Cost']}|chart|type=bar|x=Metrics|y[1]=Scenario 1: Stock Cost|y[2]=Scenario 2: Stock Cost|width={width_chart}|height={cs_height_bar_chart}|layout={ch_layout_dict}|>
+<|{cs_comparaison_metrics_df[cs_comparaison_metrics_df['Metrics']=='Stock Cost']}|chart|type=bar|x=Metrics|y[1]=Scenario 1: Stock Cost|y[2]=Scenario 2: Stock Cost|color[1]=#89CFF0|color[2]= #ffe135|width={width_chart}|height={cs_height_bar_chart}|layout={ch_layout_dict}|>
 
 <|{cs_comparaison_metrics_df[cs_comparaison_metrics_df['Metrics']=='BO Cost']}|chart|type=bar|x=Metrics|y[1]=Scenario 1: BO Cost|y[2]=Scenario 2: BO Cost|width={width_chart}|height={cs_height_bar_chart}|layout={ch_layout_dict}|>
 |>
@@ -116,14 +116,19 @@ Scenario
 
 
 def compare_scenarios(state):
+    """This function compares two scenarios chosen by the user on different metrics and populate dataframes for the comparison graphs.
+
+    Args:
+        state (State): All the GUI variables
+    """
     state.cs_show_comparaison = True
-    print(state.selected_scenario)
-    print(state.selected_scenario_two)
     
+    # get of the two scenarios chosen by the user
     results_1 = tp.get(state.selected_scenario).pipelines['pipeline'].results.read()
     results_2 = tp.get(state.selected_scenario_two).pipelines['pipeline'].results.read()
     state.cs_sum_costs_two = results_2['Total Cost'].sum()
 
+    # calculate the partial costs of the two scenarios
     bool_costs_of_stock = [c for c in results_2.columns
                            if 'Cost' in c and 'Total' not in c and 'Stock' in c]
     
@@ -135,6 +140,7 @@ def compare_scenarios(state):
     state.cs_sum_costs_of_BO_two = int(results_2[bool_costs_of_BO].sum(axis=1)\
                                                                   .sum(axis=0))
 
+    # populate the dataframes for the comparison graphs
     new_result_1 = pd.DataFrame({"index": results_1.index})
     new_result_2 = pd.DataFrame({"index": results_2.index})
 

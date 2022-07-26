@@ -10,6 +10,15 @@ import datetime as dt
 
 
 def remove_scenario_from_tree(scenario, sm_tree_dict: dict):
+    """This function finds the scenario in the tree and removes it
+
+    Args:
+        scenario (Scenario): the scenario to be deleted from the tree
+        sm_tree_dict (dict): the tree dict from which the scenario has to be deleted from
+
+    Returns:
+        tree: the tree without the scenario
+    """
     # This will be the cycle keys that will be dropped if they contain no
     # scenario
     cycle_keys_to_pop = []
@@ -35,6 +44,16 @@ def remove_scenario_from_tree(scenario, sm_tree_dict: dict):
 sm_tree_dict = {}
 
 def create_sm_tree_dict(scenarios, sm_tree_dict: dict = None):
+    """This function creates a tree dict from a list of scenarios. The levels of the tree are:
+    year/month/scenario
+
+    Args:
+        scenarios (list): a list of scenarios
+        sm_tree_dict (dict, optional): the tree gathering all the scenarios. Defaults to None.
+
+    Returns:
+        tree: the tree created to classify the scenarios
+    """
     print("Creating tree dict...")
     if sm_tree_dict is None:
         # Initialize the tree dict if it is not already initialized
@@ -63,30 +82,16 @@ def create_sm_tree_dict(scenarios, sm_tree_dict: dict = None):
     return sm_tree_dict
 
 
-# General code to create a lov for the tree control from a dictionary
-def build_childs(childs_):
-    childs_array = []
-
-    # Explore the childs of childs
-    for mother, childs in childs_.items():
-        # Build recursively the tree
-        # tuple for the tree lov are composed this way:
-        # (real_value, displayed_value, childs)
-        if isinstance(mother, tuple):
-            # 'real_value' is different from displayed_value
-            childs_tupple = (f"{mother[0]}", mother[1], build_childs(childs))
-        elif isinstance(childs, dict):
-            # 'real_value' is the same as displayed_value
-            childs_tupple = (f"{mother}", mother, build_childs(childs))
-        else:
-            # End of the tree - Children are the leafs
-            childs_tupple = (f"{mother}", mother, childs)
-
-        childs_array.append(childs_tupple)
-    return childs_array
-
 
 def create_time_selectors():
+    """This function creates the time selectors that will be displayed on the GUI and it is also creating 
+    the tree dict gathering all the scenarios.
+
+    Returns:
+        dict: the tree dict gathering all the scenarios
+        list: the list of years
+        list: the list of months
+    """
     all_scenarios = tp.get_scenarios()
     all_scenarios_ordered = sorted(
         all_scenarios,
@@ -106,6 +111,13 @@ def create_time_selectors():
 
 
 def change_sm_month_selector(state):
+    """This function is called when the user changes the year selector. It updates the selector shown on the GUI
+    for the month selector and is calling the same function for the scenario selector.
+    
+
+    Args:
+        state (State): all the GUI variables
+    """
     state.sm_month_selector = list(
         state.sm_tree_dict[state.sm_selected_year].keys())
 
@@ -113,10 +125,16 @@ def change_sm_month_selector(state):
         state.sm_selected_month = state.sm_month_selector[0]
 
     change_scenario_selector(state)
-    pass
 
 
 def change_scenario_selector(state):
+    """This function is called when the user changes the month selector. It updates the selector shown on the GUI
+    for the scenario selector.
+    
+
+    Args:
+        state (State): all the GUI variables
+    """
     state.scenario_selector = list(
         state.sm_tree_dict[state.sm_selected_year][state.sm_selected_month])
     state.scenario_selector_two = state.scenario_selector.copy()
