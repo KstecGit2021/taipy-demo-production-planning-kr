@@ -85,7 +85,7 @@ Welcome, <|{login if login != '' else 'login'}|button|on_action={open_dialog_use
 
 Password
 
-<|{password}|input|id=password_input|password|>
+<|{password}|input|password=True|>
 |>
 
 
@@ -94,7 +94,7 @@ Password
 
 Username <|{login}|input|>
 
-Password <|{password}|input|id=password_input|>
+Password <|{password}|input|password=True|>
 |>
 
 

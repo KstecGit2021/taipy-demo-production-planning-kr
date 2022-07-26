@@ -104,15 +104,19 @@ def create_charts_md(ch_results):
 ch_chart_md_1 = """
 <br/>
 <|layout|columns=1 1|columns[mobile]=1|
+<|
 <center>
-<|{str(int(sum_costs_of_BO/1000))+' K'}|indicator|value={sum_costs_of_BO}|min=50_000|max=1_000|width=200px|>
+<|{str(int(sum_costs_of_BO/1000))+' K'}|indicator|value={sum_costs_of_BO}|min=50_000|max=1_000|width=93%|>
 Back Order Cost
 </center>
+|>
 
+<|
 <center>
-<|{str(int(sum_costs_of_stock/1000))+' K'}|indicator|value={sum_costs_of_stock}|min=100_000|max=25_000|width=200px|>
+<|{str(int(sum_costs_of_stock/1000))+' K'}|indicator|value={sum_costs_of_stock}|min=100_000|max=25_000|width=93%|>
 Stock Cost
 </center>
+|>
 |>
 """
 

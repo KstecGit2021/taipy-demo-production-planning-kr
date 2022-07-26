@@ -417,9 +417,9 @@ def on_change(state, var_name, var_value):
     depending on the variable changed
 
     Args:
-        state (_type_): the state object of Taipy
-        var_name (_type_): the changed variable name
-        var_value (_type_): the changed variable value
+        state (State): the state object of Taipy
+        var_name (str): the changed variable name
+        var_value (obj): the changed variable value
     """
     # if the changed variable is the scenario selected
     if var_name == "selected_scenario" and var_value is not None:
@@ -431,9 +431,10 @@ def on_change(state, var_name, var_value):
             # it will set the sliders to the right values when a scenario is
             # changed
             fixed_temp = tp.get(state.selected_scenario).fixed_variables.read()
+            state_fixed_variables = state.fixed_variables._dict.copy()
             for key in state.fixed_variables.keys():
-                state.fixed_variables[key] = fixed_temp[key]
-
+                state_fixed_variables[key] = fixed_temp[key]
+            state.fixed_variables = state_fixed_variables
             # I update all the other useful variables
             update_variables(state)
 
