@@ -68,7 +68,11 @@ Scenario
 
 <|part|render={cs_show_comparaison and len(scenario_selector)>=2}|
 <|layout|columns=1 1 1|columns[mobile]=1|
-**Representation** <|{cs_compar_graph_selected}|selector|lov={cs_compar_graph_selector}|dropdown=|value_by_id|>
+<|
+**Representation**
+
+<|{cs_compar_graph_selected}|selector|lov={cs_compar_graph_selector}|dropdown=|value_by_id|>
+|>
 
 <br/>
 <br/>
@@ -89,26 +93,26 @@ Scenario
 <br/>
 <br/>
 <|layout|columns=1 1|columns[mobile]=1|
-<|{cs_comparaison_metrics_df[cs_comparaison_metrics_df['Metrics']=='Stock Cost']}|chart|type=bar|x=Metrics|y[1]=Scenario 1: Stock Cost|y[2]=Scenario 2: Stock Cost|color[1]=#89CFF0|color[2]= #ffe135|width={width_chart}|height={cs_height_bar_chart}|layout={ch_layout_dict}|>
+<|{cs_comparaison_metrics_df[cs_comparaison_metrics_df['Metrics']=='BO Cost']}|chart|type=bar|x=Metrics|y[1]=Scenario 1: BO Cost|y[2]=Scenario 2: BO Cost|color[2]=#2b93db|width={width_chart}|height={cs_height_bar_chart}|layout={ch_layout_dict}|>
 
-<|{cs_comparaison_metrics_df[cs_comparaison_metrics_df['Metrics']=='BO Cost']}|chart|type=bar|x=Metrics|y[1]=Scenario 1: BO Cost|y[2]=Scenario 2: BO Cost|width={width_chart}|height={cs_height_bar_chart}|layout={ch_layout_dict}|>
+<|{cs_comparaison_metrics_df[cs_comparaison_metrics_df['Metrics']=='Stock Cost']}|chart|type=bar|x=Metrics|y[1]=Scenario 1: Stock Cost|y[2]=Scenario 2: Stock Cost|color[1]=#ff7f0e|color[2]=#ff9a41|width={width_chart}|height={cs_height_bar_chart}|layout={ch_layout_dict}|>
 |>
 |>
 
 <|part|render={cs_compar_graph_selected=='Costs'}|
-<|{cs_comparaison_df}|chart|x=index|y[1]=Scenario 1 Cost|y[2]=Scenario 2 Cost|width={width_chart}|height={height_chart}|layout={ch_layout_dict}|>
+<|{cs_comparaison_df}|chart|x=index|y[1]=Scenario 1 Cost|y[2]=Scenario 2 Cost|color[2]=#1f77b4|line[2]=dash|width={width_chart}|height={height_chart}|layout={ch_layout_dict}|>
 |>
 <|part|render={cs_compar_graph_selected=='Purchases'}|
-<|{cs_comparaison_df}|chart|x=index|y[1]=Scenario 1 Purchase|y[2]=Scenario 2 Purchase|width={width_chart}|height={height_chart}|layout={ch_layout_dict}|>
+<|{cs_comparaison_df}|chart|x=index|y[1]=Scenario 1 Purchase|y[2]=Scenario 2 Purchase|color[2]=#1f77b4|line[2]=dash|width={width_chart}|height={height_chart}|layout={ch_layout_dict}|>
 |>
 <|part|render={cs_compar_graph_selected=='Productions'}|
-<|{cs_comparaison_df}|chart|x=index|y[1]=Scenario 1 Production|y[2]=Scenario 2 Production|width={width_chart}|height={height_chart}|layout={ch_layout_dict}|>
+<|{cs_comparaison_df}|chart|x=index|y[1]=Scenario 1 Production|y[2]=Scenario 2 Production|color[2]=#1f77b4|line[2]=dash|width={width_chart}|height={height_chart}|layout={ch_layout_dict}|>
 |>
 <|part|render={cs_compar_graph_selected=='Stocks'}|
-<|{cs_comparaison_df}|chart|x=index|y[1]=Scenario 1 Stock|y[2]=Scenario 2 Stock|width={width_chart}|height={height_chart}|layout={ch_layout_dict}|>
+<|{cs_comparaison_df}|chart|x=index|y[1]=Scenario 1 Stock|y[2]=Scenario 2 Stock|color[2]=#1f77b4|line[2]=dash|width={width_chart}|height={height_chart}|layout={ch_layout_dict}|>
 |>
 <|part|render={cs_compar_graph_selected=='Back Order'}|
-<|{cs_comparaison_df}|chart|x=index|y[1]=Scenario 1 BO|y[2]=Scenario 2 BO|width={width_chart}|height={height_chart}|layout={ch_layout_dict}|>
+<|{cs_comparaison_df}|chart|x=index|y[1]=Scenario 1 BO|y[2]=Scenario 2 BO|color[2]=#1f77b4|line[2]=dash|width={width_chart}|height={height_chart}|layout={ch_layout_dict}|>
 |>
 |>
 

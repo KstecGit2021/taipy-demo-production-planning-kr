@@ -113,7 +113,7 @@ cc_compare_cycles_md = """
 
 ## Evolution of costs
 
-<|{cc_data}|chart|type=bar|x=Cycle|y[1]=Cost of Back Order|y[2]=Cost of Stock|color[2]=#89CFF0|layout={cc_layout}|width=100%|height=600|>
+<|{cc_data}|chart|type=bar|x=Cycle|y[1]=Cost of Back Order|y[2]=Cost of Stock|layout={cc_layout}|width=100%|height=600|>
 |>
 
 """
