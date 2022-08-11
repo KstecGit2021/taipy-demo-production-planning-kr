@@ -1,4 +1,4 @@
-# basic packages of python to handle data
+# 데이터를 처리하기 위한 파이썬의 기본 패키지
 from login.login import *
 import pandas as pd
 
