@@ -258,8 +258,8 @@ def create_new_scenario(state):
     scenarios = [s for s in tp.get_scenarios(
     ) if 'user' in s.properties and state.login == s.properties['user']]
 
-    # 선택한 시나리오를 변경합니다. 새로운 시나리오는
-    # 이 선택되었습니다
+    # 선택한 시나리오를 변경합니다. 새 시나리오는 선택한 시나리오입니다.
+    # 
     state.selected_scenario = scenario.id
 
     # 시나리오 선택기를 업데이트합니다.
@@ -314,8 +314,8 @@ def catch_error_in_submit(state):
             "warning",
             "Value of initial stock RP2 is greater than max stock 2")
 
-    # 초기 생산량이 최대 용량보다 높은 경우
-    # 프로덕션
+    # 초기 생산이 최대 생산 능력보다 높은 경우
+    # 
     if state.fixed_variables["Initial_Production_FPA"] + \
             state.fixed_variables["Initial_Production_FPB"] > state.fixed_variables["Max_Capacity_of_FPA_and_FPB"]:
                 
@@ -343,8 +343,8 @@ def submit_scenario(state):
 
     detect_inactive_session(state)
 
-    # 매개변수에 오류가 있는지 확인합니다.
-    # 시나리오
+    # 시나리오에 제공될 매개변수에 오류가 있는지 확인합니다.
+    # 
     catch_error_in_submit(state)
 
     # 시나리오 가져오기
