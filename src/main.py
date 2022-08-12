@@ -2,7 +2,7 @@
 from login.login import *
 import pandas as pd
 
-# 타이피 코어 수입
+# 타이피 코어 import
 import taipy as tp
 
 # 내 파이썬 코드의 백엔드 가져오기 | 시나리오를 생성하려면 원본 파이프라인_cfg 및 시나리오_cfg가 필요합니다.
