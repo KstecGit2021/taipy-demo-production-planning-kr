@@ -3,37 +3,37 @@ import numpy as np
 from pulp import *
 
 
-# This code is used in the config.py where to create our tasks we need these functions
-# these functions are typical python functions (there is no Taipy in it)
+# 이 코드는 이러한 기능이 필요한 작업을 생성하는 config.py에서 사용됩니다.
+# 이 함수는 전형적인 파이썬 함수입니다(Taipy는 없습니다)
 
 ###############################################################################
-# Functions
+# 기능
 ###############################################################################
 
 
 def create_model(demand: pd.DataFrame, fixed_variables: dict):
-    """This function creates the model. It will creates all the variables and contraints of the problem.
-    It will also create the objective function.
+    """이 함수는 모델을 생성합니다. 문제의 모든 변수와 제약을 생성합니다.
+    또한 목적 함수를 생성합니다.
 
     Args:
-        demand (pd.DataFrame): demand dataframe
-        fixed_variables (dict): fixed variables dictionary
+        demand (pd.DataFrame): 수요 데이터 프레임
+        fixed_variables (dict): 고정된 변수 사전
 
     Returns:
-        dict: model_info (with the model created)
+        dict: (생성된 모델이 있는) 모델 정보
     """
-    print("Creating the model...")
+    print("모델 생성 중...")
 
     monthly_demand_FPA = demand["Demand_A"]
     monthly_demand_FPB = demand["Demand_B"]
 
     nb_periods = len(monthly_demand_FPA)
 
-    # creation of the model
+    # 모델 생성
     prob = LpProblem("Production_Planning", LpMinimize)
-
-    # creation of the variables
-    # for product A
+    
+    # 변수 생성
+    # 제품 A의 경우
     monthly_production_FPA = [
         LpVariable(f"Monthly_Production_FPA_{m}", 0) for m in range(nb_periods)
     ]
@@ -45,7 +45,7 @@ def create_model(demand: pd.DataFrame, fixed_variables: dict):
         LpVariable(f"Monthly_Back_Order_FPA_{m}", 0) for m in range(nb_periods)
     ]
 
-    # for product B
+    # 제품 B의 경우
     monthly_production_FPB = [
         LpVariable(f"Monthly_Production_FPB_{m}", 0) for m in range(nb_periods)
     ]
@@ -56,7 +56,7 @@ def create_model(demand: pd.DataFrame, fixed_variables: dict):
         LpVariable(f"Monthly_Back_Order_FPB_{m}", 0) for m in range(nb_periods)
     ]
 
-    # for product 1
+    # 제품 1의 경우
     monthly_purchase_RPone = [
         LpVariable(f"Monthly_Purchase_RPone_{m}", 0) for m in range(nb_periods)
     ]
@@ -73,7 +73,7 @@ def create_model(demand: pd.DataFrame, fixed_variables: dict):
         LpVariable(f"Monthly_Stock_RPone_for_FPB{m}", 0) for m in range(nb_periods)
     ]
 
-    # for product 2
+    # 제품 2의 경우 
     monthly_purchase_RPtwo = [
         LpVariable(f"Monthly_Purchase_RPtwo{m}", 0) for m in range(nb_periods)
     ]
@@ -90,9 +90,9 @@ def create_model(demand: pd.DataFrame, fixed_variables: dict):
         LpVariable(f"Monthly_Stock_RPtwo_for_FPB{m}", 0) for m in range(nb_periods)
     ]
 
-    # creation of the constraints
+    # 제약 조건 생성
 
-    # Kirchoff's law for product A
+    # 제품 A에 대한 Kirchoff의 법칙
     for m in range(1, nb_periods):
         prob += (
             monthly_production_FPA[m]
@@ -100,7 +100,7 @@ def create_model(demand: pd.DataFrame, fixed_variables: dict):
             + monthly_stock_FPA[m - 1]
             == monthly_demand_FPA[m] + monthly_stock_FPA[m] - monthly_back_order_FPA[m]
         )
-    # Kirchoff's law for product B
+    # 제품 B에 대한 Kirchoff의 법칙
     for m in range(1, nb_periods):
         prob += (
             monthly_production_FPB[m]
@@ -109,13 +109,13 @@ def create_model(demand: pd.DataFrame, fixed_variables: dict):
             == monthly_demand_FPB[m] + monthly_stock_FPB[m] - monthly_back_order_FPB[m]
         )
 
-    # Kirchoff's law for product 1
+    # 제품 1에 대한 Kirchoff의 법칙
     for m in range(1, nb_periods):
         prob += (
             monthly_purchase_RPone[m - 1] + monthly_stock_not_used_RPone[m - 1]
             == monthly_stock_RPone[m]
         )
-    # MS Fix for None issue
+    # 없음 문제에 대한 MS 수정
     prob += monthly_purchase_RPone[nb_periods - 1] == 0
 
     for m in range(1, nb_periods):
@@ -123,7 +123,7 @@ def create_model(demand: pd.DataFrame, fixed_variables: dict):
             monthly_purchase_RPtwo[m - 1] + monthly_stock_not_used_RPtwo[m - 1]
             == monthly_stock_RPtwo[m]
         )
-    # MS Fix for None issue
+    # 없음 문제에 대한 MS 수정
     prob += monthly_purchase_RPtwo[nb_periods - 1] == 0
 
     for m in range(nb_periods):
@@ -135,7 +135,7 @@ def create_model(demand: pd.DataFrame, fixed_variables: dict):
 
     prob += monthly_stock_FPA[0] == fixed_variables["Initial_Stock_FPA"]
 
-    # constraints on bill of materials for product A
+    # 제품 A에 대한 BOM에 대한 제약
 
     for m in range(1, nb_periods):
         prob += (
@@ -154,7 +154,7 @@ def create_model(demand: pd.DataFrame, fixed_variables: dict):
             * monthly_stock_RPtwo_for_FPA[m]
         )
 
-    # constraints on the variables : max and initial value for product A
+    # 변수에 대한 제약조건: 제품 A의 최대값과 초기값
     for m in range(nb_periods):
         prob += monthly_production_FPB[m] <= fixed_variables["Max_Capacity_FPB"]
     prob += monthly_production_FPB[0] == fixed_variables["Initial_Production_FPB"]
@@ -162,7 +162,7 @@ def create_model(demand: pd.DataFrame, fixed_variables: dict):
     prob += monthly_back_order_FPB[0] == fixed_variables["Initial_Back_Order_FPB"]
     prob += monthly_stock_FPB[0] == fixed_variables["Initial_Stock_FPB"]
 
-    # constraints on bill of materials for product B
+    # 제품 B에 대한 BOM에 대한 제약
 
     for m in range(1, nb_periods):
         prob += (
@@ -194,7 +194,7 @@ def create_model(demand: pd.DataFrame, fixed_variables: dict):
             + monthly_stock_RPone_for_FPA[m]
             + monthly_stock_RPone_for_FPB[m]
         )
-    # constraints on the variables : max and initial value for product 1
+    # 변수에 대한 제약 조건: 제품 1의 최대값 및 초기값
 
     for m in range(nb_periods):
         prob += monthly_stock_RPtwo[m] <= fixed_variables["Max_Stock_RPtwo"]
@@ -202,15 +202,15 @@ def create_model(demand: pd.DataFrame, fixed_variables: dict):
     prob += monthly_stock_RPtwo[0] == fixed_variables["Initial_Stock_RPtwo"]
 
     prob += monthly_purchase_RPtwo[0] == fixed_variables["Initial_Purchase_RPtwo"]
-    # constraints that define what is a stock for product 1
-
+    # 제품 1의 재고를 정의하는 제약 조건
+    
     for m in range(nb_periods):
         prob += monthly_stock_RPtwo[m] == (
             monthly_stock_not_used_RPtwo[m]
             + monthly_stock_RPtwo_for_FPA[m]
             + monthly_stock_RPtwo_for_FPB[m]
         )
-    # constraints on the variables : max value for product A and B (cumulative)
+    # 변수에 대한 제약 조건: 제품 A 및 B의 최대 값(누적)
 
     for m in range(nb_periods):
         prob += (
@@ -218,7 +218,7 @@ def create_model(demand: pd.DataFrame, fixed_variables: dict):
             <= fixed_variables["Max_Capacity_of_FPA_and_FPB"]
         )
 
-    # setting the objective function
+    # 목적 함수 설정
     prob += lpSum(
         fixed_variables["Weight_of_Back_Order"]
         / 100
@@ -237,7 +237,7 @@ def create_model(demand: pd.DataFrame, fixed_variables: dict):
         for m in range(nb_periods)
     )
 
-    # putting all the needed information in a dictionary
+    # 필요한 모든 정보를 사전에 담기
     model_info = {
         "model_created": prob,
         "model_solved": None,
@@ -258,24 +258,24 @@ def create_model(demand: pd.DataFrame, fixed_variables: dict):
 
 
 def solve_model(model_info: dict):
-    """This function solves the model and returns all the solutions in a dictionary.
+    """이 함수는 모델을 풀고 사전에 있는 모든 솔루션을 반환합니다.
 
     Args:
-        model_info (dict): the model_info passed by the create_model function
+        model_info (dict): create_model 함수에 의해 전달된 model_info
 
     Returns:
-        dict: the model solved and and the solutions
+        dict: 해결된 모델 및 솔루션
     """
-    print("Solving the model...")
+    print("모델 풀기...")
     prob = model_info["model_created"]
 
     nb_periods = len(model_info["Monthly_Production_FPA"])
 
-    # solving the model
+    # 모델 풀기
     m_solved = prob.solve()
 
-    # getting the solution in the right variables
-    # for product A
+    # 올바른 변수에서 솔루션 얻기
+    # 제품 A의 경우
     prod_sol_FPA = [
         value(model_info["Monthly_Production_FPA"][p]) for p in range(nb_periods)
     ]
@@ -286,7 +286,7 @@ def solve_model(model_info: dict):
         value(model_info["Monthly_Back_Order_FPA"][p]) for p in range(nb_periods)
     ]
 
-    # for product B
+    # 제품 B의 경우
     prod_sol_FPB = [
         value(model_info["Monthly_Production_FPB"][p]) for p in range(nb_periods)
     ]
@@ -297,7 +297,7 @@ def solve_model(model_info: dict):
         value(model_info["Monthly_Back_Order_FPB"][p]) for p in range(nb_periods)
     ]
 
-    # for product 1
+    # 제품 1의 경우
     stock_RPone_sol = [
         value(model_info["Monthly_Stock_RPone"][p]) for p in range(nb_periods)
     ]
@@ -305,7 +305,7 @@ def solve_model(model_info: dict):
         value(model_info["Monthly_Stock_RPtwo"][p]) for p in range(nb_periods)
     ]
 
-    # for product 2
+    # 제품 2의 경우
     purchase_RPone_sol = [
         value(model_info["Monthly_Purchase_RPone"][p]) for p in range(nb_periods)
     ]
@@ -313,7 +313,7 @@ def solve_model(model_info: dict):
         value(model_info["Monthly_Purchase_RPtwo"][p]) for p in range(nb_periods)
     ]
 
-    # put it in a dictionary
+    # 사전에 넣기
     model_info = {
         "model_created": prob,
         "model_solved": m_solved,
@@ -333,25 +333,25 @@ def solve_model(model_info: dict):
 
 
 def create_results(model_info: dict, fixed_variables: dict, demand: pd.DataFrame):
-    """This function creates the results of the model. The results dataframe is a concatenation of all the useful information.
+    """이 함수는 모델의 결과를 생성합니다. 결과 데이터 프레임은 모든 유용한 정보의 연결입니다.
 
     Args:
-        model_info (dict): the dictionary created by the solve_model function
-        fixed_variables (dict): the fixed variables of the problem
-        demand (pd.DataFrame): the demand for A and B
+        model_info (dict): solve_model 함수에 의해 생성된 사전
+        fixed_variables (dict): 문제의 고정 변수
+        demand (pd.DataFrame): A와 B에 대한 수요
 
     Returns:
-        pd.DataFrame: dataframe that gathers all the useful information about the solution
+        pd.DataFrame: 솔루션에 대한 모든 유용한 정보를 수집하는 데이터 프레임
     """
-    print("Creating the results...")
+    print("결과 생성 중...")
 
-    # getting the demand for A and B
+    # A와 B에 대한 수요 얻기
     demand_series_FPA = demand["Demand_A"]
     demand_series_FPB = demand["Demand_B"]
 
     nb_periods = len(demand_series_FPA)
 
-    # calculate the different costs
+    # 다른 비용을 계산
     cost_FPBO_FPA = fixed_variables["cost_FPA_Back_Order"] * np.array(
         model_info["Monthly_Back_Order_FPA"]
     )
@@ -377,7 +377,7 @@ def create_results(model_info: dict, fixed_variables: dict, demand: pd.DataFrame
         model_info["Monthly_Purchase_RPtwo"]
     )
 
-    # the total cost (sum of the costs)
+    # 총 비용(비용의 합계)
     total_cost = (
         cost_FPBO_FPA
         + cost_stock_FPA
@@ -389,7 +389,7 @@ def create_results(model_info: dict, fixed_variables: dict, demand: pd.DataFrame
         + cost_stock_RPtwo
     )
 
-    # creation of the dictionary that will be used to create the dataframe
+    # 데이터 프레임을 생성하는 데 사용할 사전 생성
     dict_for_dataframe = {
         "Monthly Production FPA": model_info["Monthly_Production_FPA"],
         "Monthly Stock FPA": model_info["Monthly_Stock_FPA"],
@@ -420,6 +420,6 @@ def create_results(model_info: dict, fixed_variables: dict, demand: pd.DataFrame
     results = pd.DataFrame(dict_for_dataframe).round()
     print("Results created")
 
-    # we erase the last two observations because of how the model is created,
-    # their values don't have a meaning
+    # 모델이 생성되는 방식 때문에 마지막 두 관찰을 지웁니다. 
+    # 값에는 의미가 없습니다.
     return results[:-2]
