@@ -7,7 +7,7 @@ def da_create_display_table_md(str_to_select_chart):
 
 
 da_databases_md = """
-# Datasources
+# 데이터 소스
 
 <|layout|columns=3 2 1|columns[mobile]=1|
 <layout_scenario|
