@@ -20,7 +20,7 @@ cc_creation_finished = False
 
 
 def cc_create_scenarios_for_cycle():
-    """This function creates scenarios for multiple cycles and submit them.
+    """이 기능은 여러 주기에 대한 시나리오를 생성하고 제출합니다.
     """
     date = dt.datetime(2021, 1, 1)
     month = date.strftime('%b')
@@ -51,7 +51,7 @@ def cc_create_scenarios_for_cycle():
 
 
 def update_cc_data(state):
-    """This function creates the evolution of the cost of back order and stock for the primary scenario of all the cycles."""
+    """이 기능은 모든 주기의 기본 시나리오에 대한 이월 주문 및 재고 비용의 발전을 만듭니다."""
     all_scenarios = tp.get_primary_scenarios()
 
     dates = []
@@ -71,13 +71,13 @@ def update_cc_data(state):
             dates.append(date_)
             cycles.append(dt.date(date_.year, date_.month, 1))
 
-            # creation of sum_costs_of_stock metrics
+            # sum_costs_of_stock 메트릭 생성
             bool_costs_of_stock = [c for c in results.columns
                                    if 'Cost' in c and 'Total' not in c and 'Stock' in c]
             sum_costs_of_stock = int(results[bool_costs_of_stock].sum(axis=1)\
                                                                  .sum(axis=0))
 
-            # creation of sum_costs_of_BO metrics
+            # sum_costs_of_BO 지표 생성
             bool_costs_of_BO = [c for c in results.columns
                                 if 'Cost' in c and 'Total' not in c and 'BO' in c]
             sum_costs_of_BO = int(results[bool_costs_of_BO].sum(axis=1)\
@@ -95,7 +95,7 @@ def update_cc_data(state):
 
 
 cc_compare_cycles_md = """
-# Compare cycles
+# 사이클 비교
 
 
 <center>
@@ -111,7 +111,7 @@ cc_compare_cycles_md = """
 
 |>
 
-## Evolution of costs
+## 비용의 진화
 
 <|{cc_data}|chart|type=bar|x=Cycle|y[1]=Cost of Back Order|y[2]=Cost of Stock|layout={cc_layout}|width=100%|height=600|>
 |>
