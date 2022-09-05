@@ -3,7 +3,7 @@ import pandas as pd
 
 
 cs_compare_scenario_md = """
-# Compare scenarios
+# 시나리오 비교
 
 <|layout|columns=3 3 1|columns[mobile]=1|
 
@@ -120,19 +120,19 @@ Scenario
 
 
 def compare_scenarios(state):
-    """This function compares two scenarios chosen by the user on different metrics and populate dataframes for the comparison graphs.
+    """이 기능은 사용자가 다른 메트릭에서 선택한 두 가지 시나리오를 비교하고 비교 그래프에 대한 데이터 프레임을 채웁니다.
 
     Args:
-        state (State): All the GUI variables
+        state (State): 모든 GUI 변수
     """
     state.cs_show_comparaison = True
     
-    # get of the two scenarios chosen by the user
+    # 사용자가 선택한 두 가지 시나리오 가져오기
     results_1 = tp.get(state.selected_scenario).pipelines['pipeline'].results.read()
     results_2 = tp.get(state.selected_scenario_two).pipelines['pipeline'].results.read()
     state.cs_sum_costs_two = results_2['Total Cost'].sum()
 
-    # calculate the partial costs of the two scenarios
+    # 두 시나리오의 부분 비용 계산
     bool_costs_of_stock = [c for c in results_2.columns
                            if 'Cost' in c and 'Total' not in c and 'Stock' in c]
     
@@ -144,7 +144,7 @@ def compare_scenarios(state):
     state.cs_sum_costs_of_BO_two = int(results_2[bool_costs_of_BO].sum(axis=1)\
                                                                   .sum(axis=0))
 
-    # populate the dataframes for the comparison graphs
+    # 비교 그래프의 데이터 프레임을 채웁니다.
     new_result_1 = pd.DataFrame({"index": results_1.index})
     new_result_2 = pd.DataFrame({"index": results_2.index})
 
