@@ -10,7 +10,7 @@ import datetime as dt
 
 
 def remove_scenario_from_tree(scenario, sm_tree_dict: dict):
-    """This function finds the scenario in the tree and removes it
+    """이 함수는 트리에서 시나리오를 찾아 제거합니다.
 
     Args:
         scenario (Scenario): the scenario to be deleted from the tree
@@ -19,24 +19,24 @@ def remove_scenario_from_tree(scenario, sm_tree_dict: dict):
     Returns:
         tree: the tree without the scenario
     """
-    # This will be the cycle keys that will be dropped if they contain no
-    # scenario
+    # 시나리오가 포함되지 않은 경우 삭제되는 주기 키입니다.
+    # 
     cycle_keys_to_pop = []
 
     # We explore our 2-level tree
     for cycle, scenarios_ in sm_tree_dict.items():
         for scenario_id, scenario_name in scenarios_:
             if scenario_id == scenario.id:
-                # Remove the scenario that has the same id from the tree
+                # 같은 id를 가진 시나리오를 트리에서 제거
                 sm_tree_dict[cycle].remove((scenario_id, scenario_name))
 
-                # Add the cycle to the cycles to drop if it is empty
+                # 비어 있는 경우 삭제할 주기에 주기를 추가합니다.
                 if len(sm_tree_dict[cycle]) == 0:
                     cycle_keys_to_pop += [cycle]
                 print("------------- Scenario found and deleted -------------")
                 break
 
-    # Remove the empty cycles
+    # 빈 주기 제거
     for cycle in cycle_keys_to_pop:
         sm_tree_dict.pop(cycle)
     return sm_tree_dict
@@ -44,35 +44,35 @@ def remove_scenario_from_tree(scenario, sm_tree_dict: dict):
 sm_tree_dict = {}
 
 def create_sm_tree_dict(scenarios, sm_tree_dict: dict = None):
-    """This function creates a tree dict from a list of scenarios. The levels of the tree are:
-    year/month/scenario
-
+    """이 기능은 시나리오 목록에서 트리 사전을 생성합니다. 트리 수준은 다음과 같습니다.
+    연도/월/시나리오
+    
     Args:
-        scenarios (list): a list of scenarios
-        sm_tree_dict (dict, optional): the tree gathering all the scenarios. Defaults to None.
+        scenarios (list): 시나리오 목록
+        sm_tree_dict (dict, optional): 모든 시나리오를 수집하는 트리. 기본값은 없음입니다.
 
     Returns:
-        tree: the tree created to classify the scenarios
+        tree: t시나리오를 분류하기 위해 생성된 트리
     """
-    print("Creating tree dict...")
+    print("트리 딕셔너리 생성 중...")
     if sm_tree_dict is None:
-        # Initialize the tree dict if it is not already initialized
+        # 아직 초기화되지 않은 경우 트리 딕셔너리를 초기화합니다.
         sm_tree_dict = {}
 
-    # Add all the scenarios that are in the list
+    # 목록에 있는 모든 시나리오 추가
     for scenario in scenarios:
-        # Create a name for the cycle
+        # 주기의 이름을 만듭니다.
         date = scenario.creation_date
         year = f"{date.strftime('%Y')}"
         period = f"{date.strftime('%b')}"
 
-        # Add the cycle if it was not already added
+        # 아직 추가되지 않은 경우 주기를 추가합니다.
         if year not in sm_tree_dict:
             sm_tree_dict[year] = {}
         if period not in sm_tree_dict[year]:
             sm_tree_dict[year][period] = []
 
-        # Append a new entry with the scenario id and the scenario name
+        # 시나리오 ID와 시나리오 이름으로 새 항목 추가
         scenario_name = (
             Icon(
                 'images/main.svg',
@@ -84,13 +84,13 @@ def create_sm_tree_dict(scenarios, sm_tree_dict: dict = None):
 
 
 def create_time_selectors():
-    """This function creates the time selectors that will be displayed on the GUI and it is also creating 
-    the tree dict gathering all the scenarios.
+    """이 기능은 GUI에 표시될 시간 선택기를 생성하고 모든 시나리오를 수집하는 트리 딕셔너리도 생성합니다.
+    
 
     Returns:
-        dict: the tree dict gathering all the scenarios
-        list: the list of years
-        list: the list of months
+        dict: 모든 시나리오를 수집하는 트리 딕셔너리
+        list: 연도 목록
+        list: 월 목록
     """
     all_scenarios = tp.get_scenarios()
     all_scenarios_ordered = sorted(
@@ -111,12 +111,12 @@ def create_time_selectors():
 
 
 def change_sm_month_selector(state):
-    """This function is called when the user changes the year selector. It updates the selector shown on the GUI
-    for the month selector and is calling the same function for the scenario selector.
+    """이 함수는 사용자가 연도 선택기를 변경할 때 호출됩니다. 
+    월 선택기에 대해 GUI에 표시된 선택기를 업데이트하고 시나리오 선택기에 대해 동일한 기능을 호출합니다.
     
 
     Args:
-        state (State): all the GUI variables
+        state (State): 모든 GUI 변수
     """
     state.sm_month_selector = list(
         state.sm_tree_dict[state.sm_selected_year].keys())
@@ -128,12 +128,12 @@ def change_sm_month_selector(state):
 
 
 def change_scenario_selector(state):
-    """This function is called when the user changes the month selector. It updates the selector shown on the GUI
-    for the scenario selector.
+    """이 함수는 사용자가 월 선택자를 변경할 때 호출됩니다. 시나리오 선택기에 대한 GUI에 표시된 선택기를 업데이트합니다.
+   
     
 
     Args:
-        state (State): all the GUI variables
+        state (State): 모든 GUI 변수
     """
     state.scenario_selector = list(
         state.sm_tree_dict[state.sm_selected_year][state.sm_selected_month])
@@ -148,7 +148,7 @@ def change_scenario_selector(state):
 
 
 sm_scenario_manager_md = """
-# Scenario Manager
+# 시나리오 매니저
 
 <|layout|columns=8 4 4 3|columns[mobile]=1|
 <layout_scenario|
@@ -202,7 +202,7 @@ Pie/Line chart
 |>
 """
 
-# Button for configuring scenario
+# 시나리오 구성 버튼
 sm_show_config_scenario_name = "Hide configuration"
 sm_show_config_scenario = True
 
@@ -220,7 +220,7 @@ sm_selected_month = sm_current_month
 
 sm_tree_dict, sm_year_selector, sm_month_selector = create_time_selectors()
 
-# Choose the graph to display
+# 표시할 그래프 선택
 sm_graph_selector = [
     'Costs',
     'Purchases',
