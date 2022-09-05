@@ -5,20 +5,20 @@ from taipy.gui import Icon
 
 def create_sliders(fixed_variables):
     """"
-    This is a pretty complex function that creates the sliders for the parameters by itself.
-    It could also have been done by hand. However, this way is more flexible in the long run. 
+    이것은 매개변수에 대한 슬라이더를 자체적으로 생성하는 매우 복잡한 함수입니다.
+    손으로 할 수도 있었습니다. 그러나 이 방법은 장기적으로 더 유연합니다.
     """
     
-    # the string that will be returned
+    # 반환될 문자열
     slider_md = ""
     
-    # there are three types of parameters 
+    # 매개변수에는 세 가지 유형이 있습니다.
     param_types = ['Capacity Constraints','Objective Weights','Initial Parameters']
-    # sliders of different products will be grouped in different sections (with a toggle)
+    # 다른 제품의 슬라이더는 (토글을 사용하여) 다른 섹션으로 그룹화됩니다.
     products = ['FPA','FPB','RPone','RPtwo','weight']
     
     for p_type in param_types:
-        # the part will be shown when p_type is selected
+        # p_type이 선택되면 해당 부분이 표시됩니다.
         slider_md += "\n<|part|render={pa_param_selected == '" + p_type + "'}|"
         if p_type != 'Objective Weights':
             # the part will be shown if 'Objective Weights' is not selected
@@ -31,8 +31,8 @@ def create_sliders(fixed_variables):
         if p_type == 'Objective Weights':
             var_p = [key  for key in fixed_variables.keys() if ('produce' not in key and 'Weight' in key)]
             
-            # sliders are being created for each variable (var_p)
-            # min and max value are also created automatically
+            # 각 변수(var_p)에 대해 슬라이더가 생성되고 있습니다.
+            # 최소값과 최대값도 자동으로 생성됩니다.
             for var in var_p :
                 min_ = str(int(fixed_variables[var]*0.35))
                 max_ = str(int(fixed_variables[var]*1.65)) if fixed_variables[var] != 0 else '50'
@@ -43,7 +43,7 @@ def create_sliders(fixed_variables):
                 slider_md += "\n\n" + name_of_var + " : *<|{fixed_variables."+var+"}|>*"
                 slider_md += "\n<|{fixed_variables."+var+"}|slider|orientation=h|min="+min_+"|max="+max_+"|step=5|>"
         else :
-            # the part will be shown depending on the product
+            # 제품에 따라 부품이 표시됩니다.
             for p in products :
                 slider_md += "\n<|part|render={pa_product_param == 'product_"+p+"'}|"
                 if p_type == 'Capacity Constraints':
@@ -51,8 +51,8 @@ def create_sliders(fixed_variables):
                 else :
                     var_p = [key  for key in fixed_variables.keys() if (p in key and 'produce' not in key and 'Capacity' not in key and 'Max' not in key)]
                 
-                # sliders are being created for each variable (var_p)
-                # min and max value are also created automatically
+                # 각 변수(var_p)에 대해 슬라이더가 생성되고 있습니다.
+                # 최소값과 최대값도 자동으로 생성됩니다.
                 for var in var_p :
                     min_ = str(int(fixed_variables[var]*0.35))
                     max_ = str(int(fixed_variables[var]*1.65)) if fixed_variables[var] != 0 else '50'
@@ -97,7 +97,7 @@ pa_param_selector = ['Capacity Constraints','Objective Weights','Initial Paramet
 pa_param_selected = pa_param_selector[0]
 
 
-# Toggle for choosing the sliders
+# 슬라이더 선택 토글
 pa_choice_product_param = [("product_RPone", Icon("images/P1.png", "product_RPone")),
                     ("product_RPtwo", Icon("images/P2.png", "product_RPtwo")),
                     ("product_FPA", Icon("images/PA.png", "product_FPA")),
