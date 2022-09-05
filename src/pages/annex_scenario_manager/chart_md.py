@@ -3,7 +3,7 @@ import pandas as pd
 
 ch_layout_dict = {"margin":{"t":20}}
 
-# Toggle for setting charts
+# 차트 설정 토글
 ch_choice_chart = [("pie", Icon("images/pie.png", "pie")),
                     ("chart", Icon("images/chart.png", "chart"))]
 ch_show_pie = ch_choice_chart[1][0]
@@ -67,14 +67,14 @@ def get_y_format(columns):
 
 def create_charts_md(ch_results):
     """"
-    This is a pretty complex function that creates all the charts.
-    It could also have been done by hand or used partials to have a single string that changes over time depending on the user actions.
+    이것은 모든 차트를 생성하는 매우 복잡한 함수입니다.
+    또한 사용자 작업에 따라 시간이 지남에 따라 변경되는 단일 문자열을 갖도록 수동으로 수행하거나 부분적으로 사용할 수 있습니다.
     """
     
-    # parameters to create the md for charts
+    # 차트용 md를 만드는 매개변수
     config_scenario_option = ["sm_show_config_scenario", "not(sm_show_config_scenario)"]
     
-    # a pie is possible for these representations
+    # 파이는 이러한 표현에 가능합니다.
     pie_possible = ['Costs','Purchases','Productions','Stocks','Back Order']
     charts_option_for_col = ['Cost','Purchase','Production','Stock','BO','FPA','FPB','RP1','RP2']
     charts_option = ['Costs','Purchases','Productions','Stocks','Back Order','Product FPA','Product FPB','Product RP1','Product RP2']
