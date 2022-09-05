@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-# this code is used to create the csv file for the demand, it is the source data for the problem
+# 이 코드는 수요에 대한 csv 파일을 생성하는 데 사용되며 문제의 소스 데이터입니다.
 
 def create_time_series(nb_months=12,mean_A=840,mean_B=760,std_A=96,std_B=72, amplitude_A=108,amplitude_B=144):
     time_series_A = []
